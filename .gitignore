@@ -1,0 +1,6 @@
+# 이 repo 는 공개다. index.html 과 img/ 외에는 아무것도 넣지 마라.
+*.json
+*.txt
+*.py
+*.mp4
+*.wav
