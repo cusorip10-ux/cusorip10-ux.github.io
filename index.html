@@ -18,17 +18,26 @@ html{-webkit-text-size-adjust:100%}
 body{background:var(--bg);color:var(--tx);font:16px/1.55 -apple-system,BlinkMacSystemFont,
   "Apple SD Gothic Neo","Malgun Gothic",sans-serif;padding:0 0 48px}
 .wrap{max-width:520px;margin:0 auto;padding:0 16px}
-header{text-align:center;padding:30px 0 16px}
-h1{font-size:23px;letter-spacing:-.4px}
-.bio{color:var(--sub);font-size:14px;margin-top:7px}
+.bio{color:var(--sub);font-size:13.5px;margin:12px 3px 0;line-height:1.5}
 .note{background:var(--card);border:1px solid var(--line);border-radius:10px;
-  padding:11px 13px;font-size:12.5px;color:var(--sub);margin:16px 0;line-height:1.5}
-.search{position:sticky;top:0;z-index:9;background:var(--bg);padding:10px 0 12px}
+  padding:11px 13px;font-size:12.5px;color:var(--sub);margin:10px 0 14px;line-height:1.5}
+/* ⚠️ **`margin:0 -16px` 이 핵심이다.** `.wrap` 에 좌우 16px 패딩이 있어서
+   그냥 sticky 로 두면 **배경이 좌우를 못 덮고** 카드가 그 옆으로 삐져나와 잘려 보인다.
+   실측(2026-07-30 사용자 스크린샷): 고정은 되고 있었는데 경계가 없어서 "넘어간다"고 읽혔다. */
+.search{position:sticky;top:0;z-index:20;background:var(--bg);
+  margin:0 -16px;padding:9px 16px 8px;
+  box-shadow:0 1px 0 var(--line),0 9px 16px -13px rgba(0,0,0,.34)}
 .search input{width:100%;padding:15px 17px;font-size:17px;border:2px solid var(--line);
   border-radius:13px;background:var(--card);color:var(--tx);-webkit-appearance:none}
 .search input:focus{outline:0;border-color:var(--accent)}
-.hint{font-size:12.5px;color:var(--sub);margin-top:7px;padding-left:3px}
-.count{font-size:12.5px;color:var(--sub);margin:2px 0 10px;padding-left:3px}
+/* ★ **제목이 고정 바 안에 상주한다.** 큰 헤더를 따로 두고 스크롤로 전환하는 방식은
+   폐기했다 — 그 방식은 JS(scroll·rAF·IntersectionObserver) 없이 안 되고,
+   **미리보기 환경에서 그 셋이 전부 발화하지 않아 검증이 불가능**했다.
+   제목을 상주시키면 JS 가 필요 없다: 스크롤해도 제목이 남고, 레이아웃 측정으로 확인된다. */
+.mini{display:flex;align-items:baseline;justify-content:space-between;gap:10px;
+  margin:0 3px 8px}
+.mini b{font-size:18px;letter-spacing:-.4px}
+.mini .count{font-size:12.5px;color:var(--sub);flex:0 0 auto;white-space:nowrap}
 a.item{display:flex;gap:13px;align-items:center;background:var(--card);
   border:1px solid var(--line);border-radius:13px;padding:11px;margin-bottom:9px;
   text-decoration:none;color:inherit}
@@ -44,18 +53,14 @@ a.item img{width:62px;height:62px;border-radius:9px;object-fit:cover;
 footer{text-align:center;color:var(--sub);font-size:12px;margin-top:26px;line-height:1.7}
 </style>
 </head><body><div class="wrap">
-<header>
-  <h1>seori_living</h1>
-  <div class="bio">살림 7년차 서리 · 3만원 아래로 사는 주방·살림템</div>
-</header>
-<div class="note">이 페이지의 링크는 쿠팡 파트너스 활동의 일환으로, 구매 시 수수료를 제공받습니다.</div>
-<div class="search">
+<div class="search" id="bar">
+  <div class="mini"><b>seori_living</b><span class="count" id="cnt"></span></div>
   <input id="q" type="search" inputmode="search" enterkeyhint="search"
-         placeholder="번호나 상품 이름으로 찾기 (예: 40, 채칼)"
+         placeholder="릴스에 나온 번호나 이름 (예: 40, 채칼)"
          autocomplete="off" autocorrect="off" spellcheck="false">
-  <div class="hint">릴스에 나온 번호를 그대로 넣으면 돼요</div>
 </div>
-<div class="count" id="cnt"></div>
+<div class="bio">살림 7년차 서리 · 3만원 아래로 사는 주방·살림템</div>
+<div class="note">이 페이지의 링크는 쿠팡 파트너스 활동의 일환으로, 구매 시 수수료를 제공받습니다.</div>
 <a class="item" href="https://link.coupang.com/a/fMrAfB61dY" target="_blank" rel="noopener" data-num="040" data-name="만능 채칼 (칼날 6종 세트)"><img src="img/040.webp" alt="" loading="lazy"><div class="meta"><div class="num">040</div><div class="name">만능 채칼 (칼날 6종 세트)</div></div><div class="go">›</div></a>
 <a class="item" href="https://link.coupang.com/a/fLU84jF7Nk" target="_blank" rel="noopener" data-num="039" data-name="대나무 수저 서랍정리함"><img src="img/039.webp" alt="" loading="lazy"><div class="meta"><div class="num">039</div><div class="name">대나무 수저 서랍정리함</div></div><div class="go">›</div></a>
 <a class="item" href="https://link.coupang.com/a/fLU8ZYInYa" target="_blank" rel="noopener" data-num="038" data-name="냉장고 정리용기 (투명 적층)"><img src="img/038.webp" alt="" loading="lazy"><div class="meta"><div class="num">038</div><div class="name">냉장고 정리용기 (투명 적층)</div></div><div class="go">›</div></a>
@@ -122,4 +127,10 @@ function run(){
   empty.style.display = n ? 'none' : 'block';
 }
 q.addEventListener('input',run); run();
+
+// ⛔ **스크롤 감지 JS 를 두지 않는다.** 종전 판본은 큰 제목이 화면을 벗어나면 고정 바에
+//    작은 제목을 띄우는 방식이었는데, 그건 IntersectionObserver 나 scroll 이벤트가 필요하다.
+//    실측(2026-07-30): 미리보기 환경에서 **IO 콜백 0회 · scroll 이벤트 0회 · rAF 0회**였다
+//    (scrollY 는 700 으로 바뀌었고 판정식 `senTop < 0` 도 참이었다 — 이벤트만 안 왔다).
+//    즉 그 코드는 **여기서 검증할 수 없었다.** 제목을 고정 바에 상주시켜 JS 를 없앴다.
 </script></body></html>
